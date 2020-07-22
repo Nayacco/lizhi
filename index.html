@@ -6,7 +6,7 @@
     <title>南京李志</title>
     <link
       rel="stylesheet"
-      href="https://unpkg.com/driver.js/dist/driver.min.css"
+      href="https://cdn.jsdelivr.net/npm/driver.js/dist/driver.min.css"
     />
     <link
       rel="icon"
@@ -20,6 +20,17 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/element-ui@2.13.2/lib/theme-chalk/index.css"
     />
+    <style>
+      .el-main {
+        margin-top: 50px;
+      }
+      .dplayer-video-wrap .dplayer-video {
+        height: 80vh !important;
+      }
+      [v-cloak] {
+        display: none;
+      }
+    </style>
   </head>
   <body>
     <a
@@ -46,7 +57,7 @@
       </svg>
     </a>
     <div id="aplayer"></div>
-    <div id="app">
+    <div id="app" v-cloak>
       <el-container>
         <el-aside>
           <h3 style="margin: 24px;">🎉🎉 南京李志演唱会</h3>
@@ -76,7 +87,7 @@
   <script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/goldsubmarine/lizhi-resource@master/audio/list.js"></script>
 
-  <script src="https://unpkg.com/driver.js/dist/driver.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/driver.js/dist/driver.min.js"></script>
 
   <script>
     new Vue({
@@ -84,7 +95,6 @@
       data: function () {
         return {
           dp: null,
-          driver: null,
           videoList: [
             {
               name: "2009-我爱南京跨年演唱会",
@@ -105,10 +115,8 @@
         };
       },
       mounted() {
-        setTimeout(() => {
-          this.createAplayer()
-          this.createDriver();
-        }, 1000)
+        this.createAplayer();
+        this.createDriver();
         this.dp = new DPlayer({
           container: this.$refs.dplayer,
           video: {
@@ -127,15 +135,16 @@
         },
         // 音频播放器
         createAplayer() {
-          const ap = new APlayer({
+          new APlayer({
             container: document.getElementById("aplayer"),
             audio: list,
             fixed: true,
             listMaxHeight: "calc(100vh - 66px)",
           });
         },
+        // 指引
         createDriver() {
-          this.driver = new Driver({
+          let driver = new Driver({
             animate: true,
             opacity: 0.7,
             doneBtnText: "完成",
@@ -144,7 +153,7 @@
             prevBtnText: "上一步",
             showButtons: true,
           });
-          this.driver.defineSteps([
+          driver.defineSteps([
             {
               element: "#aside-menu",
               popover: {
@@ -154,7 +163,7 @@
               },
             },
             {
-              element: '.aplayer-pic',
+              element: ".aplayer-pic",
               popover: {
                 title: "🎸 音乐播放器",
                 description:
@@ -173,22 +182,9 @@
               },
             },
           ]);
-          this.driver.start();
-          setTimeout(() => {
-            this.driver.refresh();
-          }, 3000)
+          driver.start();
         },
       },
     });
-
-    // 指引
   </script>
-  <style>
-    .el-main {
-      margin-top: 50px;
-    }
-    .dplayer-video-wrap .dplayer-video {
-      height: 80vh;
-    }
-  </style>
 </html>
