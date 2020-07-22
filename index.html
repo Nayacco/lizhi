@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>南京李志</title>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/driver.js/dist/driver.min.css"
+    />
+    <link
+      rel="icon"
+      href="https://cdn.jsdelivr.net/gh/goldsubmarine/lizhi-resource@master/audio/cover.png"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/element-ui@2.13.2/lib/theme-chalk/index.css"
+    />
+  </head>
+  <body>
+    <a
+      id="github-link"
+      href="https://github.com/GoldSubmarine/lizhi"
+      style="position: absolute; top: 0; right: 0; color: white;"
+      title="Follow me on GitHub"
+      aria-label="Follow me on GitHub"
+      rel="noopener"
+      target="_blank"
+    >
+      <svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path
+          d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+          fill="currentColor"
+          style="transform-origin: 130px 106px;"
+          class="octo-arm"
+        ></path>
+        <path
+          d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+          fill="currentColor"
+        ></path>
+      </svg>
+    </a>
+    <div id="aplayer"></div>
+    <div id="app">
+      <el-container>
+        <el-aside>
+          <h3 style="margin: 24px;">🎉🎉 南京李志演唱会</h3>
+          <el-menu default-active="0" id="aside-menu" @select="handleSelect">
+            <el-menu-item
+              v-for="(item, index) in videoList"
+              :key="index"
+              :index="String(index)"
+            >
+              <i class="el-icon-menu"></i>
+              <span slot="title">{{ item.name }}</span>
+            </el-menu-item>
+          </el-menu>
+        </el-aside>
+        <el-main>
+          <div ref="dplayer"></div>
+        </el-main>
+      </el-container>
+    </div>
+  </body>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/element-ui@2.13.2/lib/index.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@0.14.4/dist/hls.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dplayer@1.26.0/dist/DPlayer.min.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/goldsubmarine/lizhi-resource@master/audio/list.js"></script>
+
+  <script src="https://unpkg.com/driver.js/dist/driver.min.js"></script>
+
+  <script>
+    new Vue({
+      el: "#app",
+      data: function () {
+        return {
+          dp: null,
+          driver: null,
+          videoList: [
+            {
+              name: "2009-我爱南京李志跨年演唱会",
+              url:
+                "https://cdn.jsdelivr.net/gh/goldsubmarine/lizhi-resource@master/video/2009-我爱南京李志跨年演唱会/playlist.m3u8",
+            },
+            {
+              name: "2014-IO跨年演唱会",
+              url:
+                "https://cdn.jsdelivr.net/gh/goldsubmarine/lizhi-resource@master/video/2014-IO跨年演唱会/playlist.m3u8",
+            },
+            {
+              name: "2015-看见北京站直播实录",
+              url:
+                "https://cdn.jsdelivr.net/gh/goldsubmarine/lizhi-resource@master/video/2015-看见北京站直播实录/playlist.m3u8",
+            },
+          ],
+        };
+      },
+      mounted() {
+        setTimeout(() => {
+          this.createAplayer()
+          this.createDriver();
+        }, 1000)
+        this.dp = new DPlayer({
+          container: this.$refs.dplayer,
+          video: {
+            url: "",
+            type: "hls",
+          },
+        });
+        // 移除默认菜单
+        this.dp.template.menu.remove();
+      },
+      methods: {
+        handleSelect(index, indexPath) {
+          this.videoList[index];
+          this.dp.switchVideo({ url: this.videoList[index].url });
+          this.dp.play();
+        },
+        // 音频播放器
+        createAplayer() {
+          const ap = new APlayer({
+            container: document.getElementById("aplayer"),
+            audio: list,
+            fixed: true,
+            listMaxHeight: "calc(100vh - 66px)",
+          });
+        },
+        createDriver() {
+          this.driver = new Driver({
+            animate: true,
+            opacity: 0.7,
+            doneBtnText: "完成",
+            closeBtnText: "关闭",
+            nextBtnText: "下一步",
+            prevBtnText: "上一步",
+            showButtons: true,
+          });
+          this.driver.defineSteps([
+            {
+              element: "#aside-menu",
+              popover: {
+                title: "☀️ 演唱会列表",
+                description: "目前只收集了3场演唱会，欢迎提供视频源或直接 PR",
+                position: "right",
+              },
+            },
+            {
+              element: '.aplayer-pic',
+              popover: {
+                title: "🎸 音乐播放器",
+                description:
+                  "共收录 249 首歌曲，覆盖大部分专辑和演唱会 LIVE 直播",
+                position: "right-bottom",
+                offset: -30,
+              },
+            },
+            {
+              element: "#github-link",
+              popover: {
+                title: "🎨 Github",
+                description: "如需下载音频文件，请点这里。欢迎 ✨star✨",
+                position: "left",
+                offset: 30,
+              },
+            },
+          ]);
+          this.driver.start();
+          setTimeout(() => {
+            this.driver.refresh();
+          }, 3000)
+        },
+      },
+    });
+
+    // 指引
+  </script>
+  <style>
+    .el-main {
+      margin-top: 50px;
+    }
+    .dplayer-video-wrap .dplayer-video {
+      height: 80vh;
+    }
+  </style>
+</html>
