@@ -87,9 +87,9 @@
           driver: null,
           videoList: [
             {
-              name: "2009-我爱南京李志跨年演唱会",
+              name: "2009-我爱南京跨年演唱会",
               url:
-                "https://cdn.jsdelivr.net/gh/goldsubmarine/lizhi-resource@master/video/2009-我爱南京李志跨年演唱会/playlist.m3u8",
+                "https://cdn.jsdelivr.net/gh/goldsubmarine/lizhi-resource@master/video/2009-我爱南京跨年演唱会/playlist.m3u8",
             },
             {
               name: "2014-IO跨年演唱会",
@@ -112,7 +112,7 @@
         this.dp = new DPlayer({
           container: this.$refs.dplayer,
           video: {
-            url: "",
+            url: this.videoList[0].url,
             type: "hls",
           },
         });
