@@ -2,6 +2,12 @@
 
 本项目使用 `APlayer` 作为音频播放器，`DPlayer` 作为视频播放器，通过 `jsdelivr` 实现 CDN ，国内也可高速访问。因完全使用 github 做资源存储，没有自己搭建服务器或使用云盘，所以理论上资源永久有效，资源实际存储在 [lizhi-resource](https://github.com/GoldSubmarine/lizhi-resource) 中。
 
+## 相亲
+
+本人 94 年出生，老家在江苏，一直单身😭，望寻得音乐（精神）上志同道合的妹纸一枚，最好在包邮区，快来联系我吧。wechat：x997462392
+
+此消息未删除就是有效的，看看我能挂几年😤😤 (commit day 2020/09/24)
+
 ## 在线播放
 
 :point_right: [https://goldsubmarine.github.io/lizhi/](https://goldsubmarine.github.io/lizhi/)
@@ -33,8 +39,3 @@
 | 广场                     |                          |
 | 零碎                     |                          |
 
-## 相亲
-
-本人 94 年出生，老家在江苏，一直单身😭，望寻得音乐（精神）上志同道合的妹纸一枚，最好在包邮区，快来联系我吧。wechat：x997462392
-
-此消息未删除就是有效的，看看我能挂几年😤😤 (commit day 2020/09/24)
