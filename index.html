@@ -56,7 +56,8 @@
         ></path>
       </svg>
     </a>
-    <div id="aplayer"></div>
+    <div id="aplayer">
+    </div>
     <div id="app" v-cloak>
       <el-container>
         <el-aside>
@@ -80,16 +81,18 @@
   </body>
   <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/element-ui@2.13.2/lib/index.js"></script>
-
   <script src="https://cdn.jsdelivr.net/npm/hls.js@0.14.4/dist/hls.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/dplayer@1.26.0/dist/DPlayer.min.js"></script>
-
   <script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/goldsubmarine/lizhi-resource@master/audio/list.js"></script>
-
   <script src="https://cdn.jsdelivr.net/npm/driver.js/dist/driver.min.js"></script>
-
   <script>
+    const Ap = new APlayer({
+            container: aplayer,
+            audio: list,
+            fixed: true,
+            listMaxHeight: "calc(100vh - 66px)",
+          });
     new Vue({
       el: "#app",
       data: function () {
@@ -133,14 +136,38 @@
           this.dp.switchVideo({ url: this.videoList[index].url });
           this.dp.play();
         },
-        // 音频播放器
+
+        // 增加搜索功能
         createAplayer() {
-          new APlayer({
-            container: document.getElementById("aplayer"),
-            audio: list,
-            fixed: true,
-            listMaxHeight: "calc(100vh - 66px)",
-          });
+          let songList = document.getElementById("aplayer").querySelector("ol");
+          let search = document.createElement("li");
+          search.setAttribute('id', 'search');
+          search.style.position = 'sticky';
+          search.style.bottom = '0px';
+          search.style['background-color'] = '#fff';
+          search.onclick =  ev => {
+                let onEvent = ev || event;
+                onEvent.cancelBubble = true;
+                onEvent.stopPropagation();
+            };
+          let title = document.createElement("span");
+          title.className = "aplayer-list-index";
+          title.innerHTML = 0;
+          title.style.display = "none";
+          let keyWord = document.createElement("input");
+          keyWord.type = "text";
+          keyWord.placeholder = '搜索';
+          keyWord.oninput=()=>{
+            for (let key = 0; key < list.length; key++){
+              let reg = new RegExp(keyWord.value)
+              if(reg.test(list[key].name)){
+                Ap.list.switch(key) 
+                Ap.pause()
+              };     
+            };
+    　　　};
+          search.appendChild(keyWord).appendChild(title);
+          songList.appendChild(search);
         },
         // 指引
         createDriver() {
