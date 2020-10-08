@@ -30,6 +30,30 @@
       [v-cloak] {
         display: none;
       }
+      #aplayer-search {
+        position: sticky;
+        bottom: 0px;
+        background-color: #e9e9e9;
+        cursor: auto;
+        padding-top: 2px;
+      }
+      #aplayer-search input {
+        font-size: 13px;
+        box-sizing: border-box;
+        width: 250px;
+        border: 1px solid #ccc;
+        padding: 4px 8px;
+        border-radius: 3px;
+        box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+        transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+      }
+      #aplayer-search input:focus {
+        border-color:#66afe9;
+        outline:0;
+      }
+      #aplayer-search button {
+        font-size: 12px;
+      }
     </style>
   </head>
   <body>
@@ -116,16 +140,8 @@
       },
       mounted() {
         this.createAplayer();
+        this.createDplayer();
         this.createDriver();
-        this.dp = new DPlayer({
-          container: this.$refs.dplayer,
-          video: {
-            url: this.videoList[0].url,
-            type: "hls",
-          },
-        });
-        // 移除默认菜单
-        this.dp.template.menu.remove();
       },
       methods: {
         handleSelect(index, indexPath) {
@@ -133,14 +149,76 @@
           this.dp.switchVideo({ url: this.videoList[index].url });
           this.dp.play();
         },
+        // 视频播放器
+        createDplayer() {
+          this.dp = new DPlayer({
+            container: this.$refs.dplayer,
+            video: {
+              url: this.videoList[0].url,
+              type: "hls",
+            },
+          });
+          // 移除默认菜单
+          this.dp.template.menu.remove();
+        },
         // 音频播放器
         createAplayer() {
-          new APlayer({
+          this.ap = new APlayer({
             container: document.getElementById("aplayer"),
             audio: list,
             fixed: true,
             listMaxHeight: "calc(100vh - 66px)",
           });
+          // 增加搜索
+          this.addAplayerSearch();
+        },
+        // 增加音频搜索
+        addAplayerSearch() {
+          let songList = document.getElementById("aplayer").querySelector("ol");
+          songList.innerHTML += `
+            <li id="aplayer-search">
+              <input type="text" placeholder="搜索歌名或专辑">
+              <button id="pre-song">上一首</button>
+              <button id="next-song">下一首</button>
+            </li>
+          `
+          let aplayerSearchDom = document.getElementById("aplayer-search");
+          let inputSearchDom = aplayerSearchDom.querySelector("input");
+          let preButtomDom = document.getElementById("pre-song");
+          let nextButtomDom = document.getElementById("next-song");
+          aplayerSearchDom.onclick = ev => {
+            let onEvent = ev || event;
+            onEvent.cancelBubble = true;
+            onEvent.stopPropagation();
+          };
+          let indexArr = []
+          let nowIndex = null
+          inputSearchDom.oninput = () => {
+            indexArr = []
+            nowIndex = null
+            list.forEach((item, index) => {
+              if(item.name.indexOf(inputSearchDom.value) !== -1
+                || item.artist.indexOf(inputSearchDom.value) !== -1
+              ) {
+                indexArr.push(index)
+              };  
+            })
+            if(indexArr.length > 0) {
+              this.ap.list.switch(indexArr[0])
+              this.ap.pause()
+              nowIndex = 0
+            }
+    　　　};
+          preButtomDom.onclick = () => {
+            if(nowIndex === 0) nowIndex = indexArr.length
+            this.ap.list.switch(indexArr[--nowIndex])
+            this.ap.pause()
+          }
+          nextButtomDom.onclick = () => {
+            if(indexArr.length === nowIndex + 1) nowIndex = -1
+            this.ap.list.switch(indexArr[++nowIndex])
+            this.ap.pause()
+          }
         },
         // 指引
         createDriver() {
