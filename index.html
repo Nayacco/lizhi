@@ -222,6 +222,8 @@
         },
         // 指引
         createDriver() {
+          if(document.cookie.indexOf("isFirstVisit=false") !== -1) return;
+          document.cookie = "isFirstVisit=false";
           let driver = new Driver({
             animate: true,
             opacity: 0.7,
