@@ -21,11 +21,18 @@
       href="https://cdn.jsdelivr.net/npm/element-ui@2.13.2/lib/theme-chalk/index.css"
     />
     <style>
-      .el-main {
-        margin-top: 50px;
-      }
       .dplayer-video-wrap .dplayer-video {
         height: 80vh !important;
+      }
+      @media screen and (max-width: 768px) {
+        .dplayer-video-wrap .dplayer-video {
+          height: 40vh !important;
+        }
+      }
+      @media screen and (max-width: 768px) {
+        .aplayer.aplayer-fixed{
+          max-width: none;
+        }
       }
       [v-cloak] {
         display: none;
@@ -40,7 +47,7 @@
       #aplayer-search input {
         font-size: 13px;
         box-sizing: border-box;
-        width: 250px;
+        width: calc(100% - 116px);
         border: 1px solid #ccc;
         padding: 4px 8px;
         border-radius: 3px;
@@ -53,6 +60,20 @@
       }
       #aplayer-search button {
         font-size: 12px;
+      }
+      .main {
+        display: flex;
+        flex-wrap: nowrap;
+      }
+      @media screen and (min-width: 768px) {
+        .main aside {
+          width: 300px;
+          margin-right: 20px;
+        }
+      }
+      .main .wrap-dplayer {
+        flex-grow: 1;
+        margin-right: 20px;
       }
     </style>
   </head>
@@ -82,10 +103,12 @@
     </a>
     <div id="aplayer"></div>
     <div id="app" v-cloak>
-      <el-container>
-        <el-aside>
-          <h3 style="margin: 24px;">🎉🎉 南京李志演唱会</h3>
-          <el-menu default-active="0" id="aside-menu" @select="handleSelect">
+      <header>
+        <h3 style="margin: 30px;">🎉🎉 南京李志演唱会</h3>
+      </header>
+      <main class="main">
+        <aside>
+          <el-menu default-active="0" id="aside-menu" @select="handleSelect" :collapse="isPhone()">
             <el-menu-item
               v-for="(item, index) in videoList"
               :key="index"
@@ -95,11 +118,11 @@
               <span slot="title">{{ item.name }}</span>
             </el-menu-item>
           </el-menu>
-        </el-aside>
-        <el-main>
+        </aside>
+        <div class="wrap-dplayer">
           <div ref="dplayer"></div>
-        </el-main>
-      </el-container>
+        </div>
+      </main>
     </div>
   </body>
   <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.min.js"></script>
@@ -256,13 +279,16 @@
               element: "#github-link",
               popover: {
                 title: "🎨 Github",
-                description: "如需下载音频文件，请点这里。欢迎 ✨star✨",
+                description: "如需下载音频文件，请点这里。<br />欢迎 ✨star✨",
                 position: "left",
                 offset: 30,
               },
             },
           ]);
           driver.start();
+        },
+        isPhone() {
+          return window.screen.width < 768
         },
       },
     });
