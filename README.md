@@ -12,6 +12,10 @@
 
 :point_right: [https://goldsubmarine.github.io/lizhi/](https://goldsubmarine.github.io/lizhi/)
 
+## ⚠️DNS
+
+此域名已经被审查，并被 DNS 污染，手动设置 DNS 为 `1.1.1.1` 或 `8.8.8.8` 才可访问 (commit day 2021/02/23)
+
 ## 下载
 
 :fire: 打开 [download.txt](https://cdn.jsdelivr.net/gh/goldsubmarine/lizhi-resource/audio/download.txt) ，复制其中的内容到迅雷或 Motrix 中，即可下载全部歌曲。
