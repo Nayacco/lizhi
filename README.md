@@ -12,6 +12,8 @@
 
 :point_right: [https://lizhi-fgek.pages.dev](https://lizhi-fgek.pages.dev) (推荐)
 
+:point_right: [https://lizhiyun.live](https://lizhiyun.live) (推荐，感谢 @lizhimusic 提供)
+
 :point_right: [https://goldsubmarine.github.io/lizhi/](https://goldsubmarine.github.io/lizhi/)
 
 ## ⚠️DNS
