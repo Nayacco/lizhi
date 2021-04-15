@@ -24,7 +24,9 @@
 
 ## 下载
 
-:fire: 打开 [download.txt](https://cdn.jsdelivr.net/gh/goldsubmarine/lizhi-resource/audio/download.txt) ，复制其中的内容到迅雷或 Motrix 中，即可下载全部歌曲。
+:fire: 可以直接通过页面下载选定的歌曲
+
+:fire: 或打开 [download.txt](https://cdn.jsdelivr.net/gh/goldsubmarine/lizhi-resource/audio/download.txt) ，复制其中的内容到迅雷或 Motrix 中，即可下载全部歌曲。
 
 ## 收录视频
 
