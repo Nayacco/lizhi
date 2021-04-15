@@ -18,7 +18,7 @@
     />
     <link
       rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/element-ui@2.13.2/lib/theme-chalk/index.css"
+      href="https://cdn.jsdelivr.net/npm/element-ui@2.15.1/lib/theme-chalk/index.css"
     />
     <style>
       .dplayer-video-wrap .dplayer-video {
@@ -65,6 +65,11 @@
         display: flex;
         flex-wrap: nowrap;
       }
+      .download-btn {
+        position: fixed;
+        bottom: 14px;
+        left: 100px;
+      }
       @media screen and (min-width: 768px) {
         .main aside {
           width: 300px;
@@ -101,8 +106,27 @@
         ></path>
       </svg>
     </a>
-    <div id="aplayer"></div>
     <div id="app" v-cloak>
+      <div ref="aplayer"></div>
+      <el-button class="download-btn" type="primary" @click="drawer = true" plain icon="el-icon-download">下载歌曲</el-button>
+      <el-drawer title="下载歌曲" :visible.sync="drawer" direction="rtl" :wrapperClosable="false" :size="isMobile ? '100%' : '40%'">
+        <el-table :data="songList" @selection-change="handleDownloadSelect" width="800px" :max-height="computedTableHeight">
+          <el-table-column type="selection" width="55"></el-table-column>
+          <el-table-column property="name" label="歌名"></el-table-column>
+          <el-table-column property="artist" label="专辑"></el-table-column>
+        </el-table>
+        <el-alert :title="isMobile ? '当前为手机环境，歌曲一共10个G，请注意手机容量，建议部分下载或打开电脑下载' : '点击下载后，注意左上角弹窗，需同意下载多个文件'" type="info" show-icon></el-alert>
+        <el-progress 
+          :percentage="percentage" 
+          :text-inside="true"
+          :stroke-width="20"
+          style="margin: 10px;" 
+          :format="percentage => `${(percentage/100*downloadSongList.length).toFixed()}/${downloadSongList.length}`"
+        ></el-progress>
+        <div style="margin-left: 20px;">
+          <el-button @click="handleDownloadSong" type="primary" :disabled="downloadSongList.length == 0" :loading="downloading">下载选中歌曲</el-button>
+        </div>
+      </el-drawer>
       <header>
         <h3 style="margin: 30px;">🎉🎉 南京李志演唱会</h3>
       </header>
@@ -126,7 +150,7 @@
     </div>
   </body>
   <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/element-ui@2.13.2/lib/index.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/element-ui@2.15.1/lib/index.js"></script>
 
   <script src="https://cdn.jsdelivr.net/npm/hls.js@0.14.4/dist/hls.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/dplayer@1.26.0/dist/DPlayer.min.js"></script>
@@ -142,6 +166,11 @@
       data: function () {
         return {
           dp: null,
+          songList: list,
+          drawer: false,
+          percentage: 0,
+          downloading: false,
+          downloadSongList: [],
           videoList: [
             {
               name: "2009-我爱南京跨年演唱会",
@@ -166,11 +195,49 @@
         this.createDplayer();
         this.createDriver();
       },
+      computed: {
+        computedTableHeight() {
+          return window.innerHeight - 240
+        },
+        isMobile() {
+          return /Android|webOS|iPhone|iPad|BlackBerry/i.test(navigator.userAgent)
+        }
+      },
       methods: {
         handleSelect(index, indexPath) {
           this.videoList[index];
           this.dp.switchVideo({ url: this.videoList[index].url });
           this.dp.play();
+        },
+        handleDownloadSelect(songList) {
+          this.downloadSongList = songList
+          this.percentage = 0
+        },
+        handleDownloadSong() {
+          this.downloading = true
+          let nextIndex = 0
+          let taskNum = 0
+          let timer = setInterval(() => {
+            if(taskNum < 3) {
+              let item = this.downloadSongList[nextIndex]
+              taskNum++
+              nextIndex++
+              fetch(item.url).then(res => {
+                res.blob().then(blob => {
+                  let a = document.createElement('a');
+                  let url = window.URL.createObjectURL(blob); 
+                  a.href = url;
+                  a.download = item.name;
+                  a.click();
+                  window.URL.revokeObjectURL(url);
+                  this.percentage = nextIndex/this.downloadSongList.length*100
+                  taskNum--
+                  if(nextIndex === this.downloadSongList.length) this.downloading = false
+                })
+              })
+            }
+            if(nextIndex === this.downloadSongList.length) clearInterval(timer)
+          }, 50)
         },
         // 视频播放器
         createDplayer() {
@@ -187,7 +254,7 @@
         // 音频播放器
         createAplayer() {
           this.ap = new APlayer({
-            container: document.getElementById("aplayer"),
+            container: this.$refs.aplayer,
             audio: list,
             fixed: true,
             listMaxHeight: "calc(100vh - 66px)",
@@ -197,8 +264,8 @@
         },
         // 增加音频搜索
         addAplayerSearch() {
-          let songList = document.getElementById("aplayer").querySelector("ol");
-          songList.innerHTML += `
+          let songListHtml = this.$refs.aplayer.querySelector("ol");
+          songListHtml.innerHTML += `
             <li id="aplayer-search">
               <input type="text" placeholder="搜索歌名或专辑">
               <button id="pre-song">上一首</button>
