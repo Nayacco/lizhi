@@ -1,6 +1,6 @@
 # 南京李志
 
-本项目使用 `APlayer` 作为音频播放器，`DPlayer` 作为视频播放器，通过 `jsdelivr` 实现 CDN ，国内也可高速访问。因完全使用 github 做资源存储，没有自己搭建服务器或使用云盘，所以理论上资源永久有效，资源实际存储在 [lizhi-resource](https://github.com/GoldSubmarine/lizhi-resource) 中。
+本项目使用 `APlayer` 作为音频播放器，`DPlayer` 作为视频播放器，通过 `jsdelivr` 实现 CDN ，国内也可高速访问。因完全使用 github 做资源存储，没有自己搭建服务器或使用云盘，所以理论上资源永久有效，资源实际存储在 [nj-lizhi](https://github.com/nj-lizhi) 中。
 
 ## 相亲
 
@@ -26,7 +26,7 @@
 
 :fire: 可以直接通过页面下载选定的歌曲
 
-:fire: 或打开 [download.txt](https://cdn.jsdelivr.net/gh/goldsubmarine/lizhi-resource/audio/download.txt) ，复制其中的内容到迅雷或 Motrix 中，即可下载全部歌曲。
+:fire: 或打开 [download.txt](https://cdn.jsdelivr.net/gh/nj-lizhi/song/audio/download.txt) ，复制其中的内容到迅雷或 Motrix 中，即可下载全部歌曲。
 
 ## 收录视频
 
@@ -50,4 +50,3 @@
 | 我们也爱南京             |                          |
 | 广场                     |                          |
 | 零碎                     |                          |
-
