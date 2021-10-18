@@ -8,11 +8,11 @@
 
 此消息未删除就是有效的，看看我能挂几年😤😤 (commit day 2020/09/24)
 
+一年多过去了，依旧一个人，感觉没得救了🙂 (commit day 2021/10/18)
+
 ## 在线播放
 
 :point_right: [https://lizhi-fgek.pages.dev](https://lizhi-fgek.pages.dev) (推荐)
-
-:point_right: [https://lizhiyun.live](https://lizhiyun.live) (推荐，感谢 @lizhimusic 提供)
 
 :point_right: [https://goldsubmarine.github.io/lizhi/](https://goldsubmarine.github.io/lizhi/)
 
