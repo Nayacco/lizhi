@@ -12,6 +12,8 @@
 
 ## 在线播放
 
+:point_right: [https://goldsubmarine.gitee.io/lizhi/](https://goldsubmarine.gitee.io/lizhi/) (推荐)
+
 :point_right: [https://lizhi-fgek.pages.dev](https://lizhi-fgek.pages.dev) (推荐)
 
 :point_right: [https://goldsubmarine.github.io/lizhi/](https://goldsubmarine.github.io/lizhi/)
