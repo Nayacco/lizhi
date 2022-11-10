@@ -153,12 +153,13 @@
   <script src="https://gcore.jsdelivr.net/npm/element-ui@2.15.1/lib/index.js"></script>
 
   <script src="https://gcore.jsdelivr.net/npm/hls.js@0.14.4/dist/hls.min.js"></script>
-  <script src="https://gcore.jsdelivr.net/npm/dplayer@1.26.0/dist/DPlayer.min.js"></script>
+  <script src="https://gcore.jsdelivr.net/npm/dplayer@1.27.0/dist/DPlayer.min.js"></script>
 
   <script src="https://gcore.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script>
   <script src="https://gcore.jsdelivr.net/gh/nj-lizhi/song@main/audio/list-v1.js"></script>
 
   <script src="https://gcore.jsdelivr.net/npm/driver.js/dist/driver.min.js"></script>
+  <!-- <script src="//unpkg.byted-static.com/xgplayer/2.31.2/browser/index.js" type="text/javascript"></script> -->
 
   <script>
     new Vue({
@@ -175,17 +176,17 @@
             {
               name: "2009-我爱南京跨年演唱会",
               url:
-                "https://gcore.jsdelivr.net/gh/nj-lizhi/kn-2009-wanj@main/video/playlist.m3u6",
+                "https://gcore.jsdelivr.net/gh/nj-lizhi/kn-2009-wanj@main/video/roadmap.js",
             },
             {
               name: "2014-IO跨年演唱会",
               url:
-                "https://gcore.jsdelivr.net/gh/nj-lizhi/kn-2014-io@main/video/playlist.m3u6",
+                "https://gcore.jsdelivr.net/gh/nj-lizhi/kn-2014-io@main/video/roadmap.js",
             },
             {
               name: "2015-看见北京站直播实录",
               url:
-                "https://gcore.jsdelivr.net/gh/nj-lizhi/kn-2015-kj@main/video/playlist.m3u6",
+                "https://gcore.jsdelivr.net/gh/nj-lizhi/kn-2015-kj@main/video/roadmap.js",
             },
             {
               name: "2018-洗心革面跨年演唱会",
@@ -211,7 +212,7 @@
       methods: {
         handleSelect(index, indexPath) {
           this.videoList[index];
-          this.dp.switchVideo({ url: this.videoList[index].url });
+          this.dp.switchVideo({ url: this.videoList[index].url, type: 'hls' });
           this.dp.play();
         },
         handleDownloadSelect(songList) {
