@@ -55,3 +55,7 @@
 | 我们也爱南京             |                          |
 | 广场                     |                          |
 | 零碎                     |                          |
+
+## 相关链接
+
+一个更为优美的李志音乐作品在线播放器：[https://github.com/turkyden/lizhi](https://github.com/turkyden/lizhi)
