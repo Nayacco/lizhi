@@ -59,3 +59,9 @@
 ## 相关链接
 
 一个更为优美的李志音乐作品在线播放器：[https://github.com/turkyden/lizhi](https://github.com/turkyden/lizhi)
+
+## 推荐歌单
+
+除了音乐节上能听到的曲目外，中国还有很多不为人发现的优秀音乐作品，所以整理了一份歌单推荐给大家，欢迎推荐更多好的作品来丰富这份歌单
+
+[https://music.163.com/#/playlist?id=8013810337](https://music.163.com/#/playlist?id=8013810337)
